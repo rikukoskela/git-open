@@ -1,1 +1,8 @@
+*.in
+*.out
+*.pyc
+
+git add .gitignore
+
+git commit -m "Lisää .gitignore tiedosto suodattamaan .in, .out ja .pyc tiedostot"
 
