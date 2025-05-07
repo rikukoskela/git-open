@@ -1,52 +1,21 @@
+# Lisää uusi etätietovarasto
+git remote add upstream https://course-gitlab.tuni.fi/git-course/basics-materials.git
 
-def debug_print(debug_msg=None, **kwargs):
+# Nouda etätietovaraston versiohistoria
+git fetch upstream
 
-    if debug_msg:
-        print(debug_msg)
+# Yhdistä (merge) etätietovaraston historia omaan tietovarastoosi
+git merge upstream/master --allow-unrelated-histories
 
-    for key, value in kwargs.items():
-        print("{}: {}".format(key, value))
+# Määritä Gitin asetukset, jos saat virheilmoituksen divergent branches
+git config pull.rebase false
 
+# Yhdistä (merge) uudelleen
+git merge upstream/master --allow-unrelated-histories
 
-def mergesort(array):
-    if len(array) <= 1:
-        return array
+# Etsi haluamasi version commit-id
+git log upstream/master -- mergesort.py
 
-    m = len(array) // 2
+# Palauta mergesort.py-tiedosto kyseisestä commit-id:stä
+git checkout <commit-id> -- mergesort.py
 
-    left = mergesort(array[:m])
-    right = mergesort(array[m:])
-
-    return merge(left, right)
-
-
-def merge(left, right):
-    merged = []
-
-    while len(left) > 0 and len(right) > 0:
-        if left[0] <= right[0]:
-            merged.append(left.pop(0))
-        else:
-            merged.append(right.pop(0))
-
-    if len(left) > 0:
-        merged += left
-    else:
-        merged += right
-
-    return merged
-
-
-if __name__ == "__main__":
-    input_str = input("Enter numbers, separated by ',': ")
-    input_list = input_str.split(",")
-    value_list = []
-    for x in input_list:
-        try:
-            value_list.append(int(x))
-        except ValueError as err:
-            print("Invalid input.")
-            quit(1)
-
-    sorted_list = mergesort(value_list)
-    print(sorted_list)
